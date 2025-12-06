@@ -1,0 +1,8 @@
+{
+  "name": "Clinix",
+  "description": "AI-assisted medical triage system for primary care facilities.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
