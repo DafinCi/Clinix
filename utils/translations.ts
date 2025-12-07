@@ -2,6 +2,18 @@ import { Language } from '../types';
 
 type Translations = {
   [key in Language]: {
+    // Auth & Roles
+    loginTitle: string;
+    selectRole: string;
+    doctorNurse: string;
+    specialist: string;
+    login: string;
+    logout: string;
+    role_DOCTOR: string;
+    role_NURSE: string;
+    role_SPECIALIST: string;
+    
+    // Core
     welcome: string;
     ready: string;
     startTriage: string;
@@ -18,6 +30,12 @@ type Translations = {
     nextStep: string;
     back: string;
     analyze: string;
+    selfTriage: string;
+    aiSystemDesc: string;
+    internalAccess: string;
+    secureEnv: string;
+    
+    // Patient Data & Vitals
     fullName: string;
     age: string;
     gender: string;
@@ -26,6 +44,16 @@ type Translations = {
     weight: string;
     allergies: string;
     chiefComplaint: string;
+    vitalsTitle: string;
+    temp: string;
+    hr: string;
+    bp: string;
+    sys: string;
+    dia: string;
+    spo2: string;
+    rr: string;
+    
+    // Wizard
     duration: string;
     severity: string;
     mild: string;
@@ -33,6 +61,19 @@ type Translations = {
     uploadTitle: string;
     uploadDesc: string;
     tapUpload: string;
+    micStart: string;
+    micStop: string;
+    symptoms: { [key: string]: string };
+    detected: string;
+    no: string;
+    duration1: string;
+    duration2: string;
+    duration3: string;
+    duration4: string;
+    voiceNotSupported: string;
+    fillBasicInfo: string;
+
+    // Results & Analysis
     analysisComplete: string;
     topDiagnoses: string;
     medSuggestions: string;
@@ -40,6 +81,102 @@ type Translations = {
     recommendation: string;
     confirmTreat: string;
     requestReferral: string;
+    emergencyTransfer: string;
+    emergencyMode: string;
+    emergencyAlert: string;
+    immediateAction: string;
+    stabilizeABC: string;
+    administerOxygen: string;
+    prepareTransfer: string;
+    triageReport: string;
+    generatedOn: string;
+    copied: string;
+    copyFail: string;
+    priority: string;
+    urgency_Red: string;
+    urgency_Yellow: string;
+    urgency_Green: string;
+    warning: string;
+    accurate: string;
+    incorrect: string;
+    referralSent: string;
+    referralToast: string;
+    analysisFailed: string;
+    
+    // Specialist & Audit
+    specialistPortal: string;
+    incomingReferrals: string;
+    sendRecommendation: string;
+    auditLogs: string;
+    caseTimeline: string;
+    diagnosisLabel: string;
+    typeNotes: string;
+    reject: string;
+    approve: string;
+    tableTimestamp: string;
+    tableActor: string;
+    tableAction: string;
+    tableDetails: string;
+    auditSystem: string;
+    auditInit: string;
+    auditMsg: string;
+    noLogs: string;
+    
+    // Case Lookup & QR
+    lookupCase: string;
+    enterCaseId: string;
+    scanQr: string;
+    printCase: string;
+    caseId: string;
+    caseNotFound: string;
+    search: string;
+    tapToView: string;
+    scannerInstructions: string;
+    lookupSubtitle: string;
+
+    // Public Mode
+    publicModeBtn: string;
+    clinicModeBtn: string;
+    publicWelcome: string;
+    publicDesc: string;
+    aboutYou: string;
+    yourSymptoms: string;
+    howBad: string;
+    howLong: string;
+    checkSymptoms: string;
+    iFeel: string;
+    ageGroup: string;
+    child: string;
+    teen: string;
+    adult: string;
+    senior: string;
+    moderate: string;
+    publicResults: string;
+    possibleCauses: string;
+    homeCare: string;
+    whenToSeeDoc: string;
+    shareWithClinic: string;
+    clearData: string;
+    publicDisclaimer: string;
+    shareInstructions: string;
+    risk: string;
+    risk_Low: string;
+    risk_Medium: string;
+    risk_High: string;
+    clearDataConfirm: string;
+
+    // History
+    history: string;
+    historyTitle: string;
+    noHistory: string;
+    viewDetails: string;
+    delete: string;
+    deleteAll: string;
+    confirmDelete: string;
+    confirmClearHistory: string;
+    savedAutomatically: string;
+
+    // Misc
     offlineMode: string;
     online: string;
     alert: string;
@@ -47,10 +184,6 @@ type Translations = {
     close: string;
     notifications: string;
     saveOffline: string;
-    micStart: string;
-    micStop: string;
-    // New additions
-    symptoms: { [key: string]: string };
     clinicAnalytics: string;
     redCases: string;
     yellowCases: string;
@@ -69,11 +202,26 @@ type Translations = {
     failedAnalytics: string;
     analyzing: string;
     analyzingDesc: string;
+    connecting: string;
+    validationError: string;
+    provideFeedback: string;
+    feedbackThanks: string;
+    newTriage: string;
+    startAssessment: string;
   };
 };
 
-export const TRANSLATIONS: Translations = {
-  en: {
+const EN_TRANSLATIONS = {
+    loginTitle: "Clinix Access",
+    selectRole: "Select User Role",
+    doctorNurse: "Doctor / Nurse",
+    specialist: "Specialist",
+    login: "Login",
+    logout: "Exit",
+    role_DOCTOR: "Doctor",
+    role_NURSE: "Nurse",
+    role_SPECIALIST: "Specialist",
+
     welcome: "Welcome, Dr. Assistant",
     ready: "Ready to triage patients today.",
     startTriage: "Start New Triage",
@@ -81,7 +229,7 @@ export const TRANSLATIONS: Translations = {
     referralInbox: "Referral Inbox",
     activeCases: "Active Cases",
     dashboard: "Dashboard Analytics",
-    recentActivity: "Recent Activity (Simulated)",
+    recentActivity: "Recent Activity",
     patientDetails: "Patient Details",
     symptomAssessment: "Symptom Assessment",
     evidence: "Evidence",
@@ -89,7 +237,12 @@ export const TRANSLATIONS: Translations = {
     of: "of",
     nextStep: "Next Step",
     back: "Back",
-    analyze: "Analyze with AI",
+    analyze: "Analyze",
+    selfTriage: "Self-Triage",
+    aiSystemDesc: "AI-Assisted Triage System",
+    internalAccess: "Internal Access",
+    secureEnv: "Secure Environment • End-to-End Encrypted",
+    
     fullName: "Full Name",
     age: "Age",
     gender: "Gender",
@@ -98,20 +251,79 @@ export const TRANSLATIONS: Translations = {
     weight: "Weight (kg)",
     allergies: "Allergies",
     chiefComplaint: "Chief Complaint",
-    duration: "Duration of symptoms",
-    severity: "Severity (1-10)",
+    vitalsTitle: "Vitals Signs",
+    temp: "Temp (°C)",
+    hr: "Heart Rate (bpm)",
+    bp: "BP (Sys/Dia)",
+    sys: "Sys",
+    dia: "Dia",
+    spo2: "SPO2 (%)",
+    rr: "Resp. Rate",
+    duration: "Duration",
+    severity: "Severity",
     mild: "Mild",
     severe: "Severe",
-    uploadTitle: "Data Upload (Optional)",
-    uploadDesc: "Upload images of rashes, wounds, or simple lab results to assist the AI.",
+    uploadTitle: "Data Upload",
+    uploadDesc: "Upload images of rashes, wounds, or lab results.",
     tapUpload: "Tap to Upload Image",
+    micStart: "Tap to speak",
+    micStop: "Listening...",
+    detected: "Detected",
+    no: "No",
+    duration1: "Less than 1 day",
+    duration2: "1-2 days",
+    duration3: "3-5 days",
+    duration4: "More than a week",
+    voiceNotSupported: "Voice input not supported.",
+    fillBasicInfo: "Please fill in basic patient info (Name & Age).",
+
     analysisComplete: "Analysis Complete",
     topDiagnoses: "Top AI Diagnoses & Logic",
-    medSuggestions: "Medication Suggestions",
+    medSuggestions: "OTC Medication Suggestions",
     riskFactors: "Key Risk Factors",
     recommendation: "AI Recommendation",
     confirmTreat: "Confirm & Treat",
     requestReferral: "Request Referral",
+    emergencyTransfer: "Emergency Transfer",
+    emergencyMode: "EMERGENCY MODE",
+    emergencyAlert: "CRITICAL VITALS DETECTED",
+    immediateAction: "Immediate Action Required",
+    stabilizeABC: "Stabilize patient ABC (Airway, Breathing, Circulation)",
+    administerOxygen: "Administer Oxygen if SPO2 < 90%",
+    prepareTransfer: "Prepare for immediate transfer",
+    triageReport: "CLINIX TRIAGE REPORT",
+    generatedOn: "Generated on",
+    copied: "Copied!",
+    copyFail: "Manual copy required",
+    priority: "PRIORITY",
+    urgency_Red: "RED",
+    urgency_Yellow: "YELLOW",
+    urgency_Green: "GREEN",
+    warning: "Warning:",
+    accurate: "Accurate",
+    incorrect: "Incorrect",
+    referralSent: "Referral Sent",
+    referralToast: "Referral sent to specialist successfully!",
+    analysisFailed: "Analysis failed. Please try again.",
+
+    specialistPortal: "Specialist Portal",
+    incomingReferrals: "Incoming Referrals",
+    sendRecommendation: "Send Recommendation",
+    auditLogs: "System Audit Logs",
+    caseTimeline: "Case Timeline",
+    diagnosisLabel: "Diagnosis:",
+    typeNotes: "Type notes for the referring doctor...",
+    reject: "Reject",
+    approve: "Approve & Reply",
+    tableTimestamp: "Timestamp",
+    tableActor: "Actor",
+    tableAction: "Action",
+    tableDetails: "Details",
+    auditSystem: "System",
+    auditInit: "INIT",
+    auditMsg: "System initialized successfully",
+    noLogs: "No more logs available.",
+
     offlineMode: "Offline Mode",
     online: "Online",
     alert: "ALERT",
@@ -119,17 +331,12 @@ export const TRANSLATIONS: Translations = {
     close: "Close",
     notifications: "Notifications",
     saveOffline: "Save to Offline Queue",
-    micStart: "Tap to speak",
-    micStop: "Listening...",
     symptoms: {
-        "Fever": "Fever",
-        "Cough": "Cough",
-        "Shortness of breath": "Shortness of breath",
-        "Chest pain": "Chest pain",
-        "Fatigue": "Fatigue",
-        "Nausea": "Nausea",
-        "Rash": "Rash",
-        "Headache": "Headache"
+        "Fever": "Fever", "Cough": "Cough", "Shortness of breath": "Shortness of breath",
+        "Chest pain": "Chest pain", "Fatigue": "Fatigue", "Nausea": "Nausea",
+        "Rash": "Rash", "Headache": "Headache", "Dizziness": "Dizziness", "Abdominal Pain": "Abdominal Pain",
+        "Fever / Hot": "Fever / Hot", "Coughing": "Coughing", "Tummy Pain": "Tummy Pain", 
+        "Feeling Tired": "Feeling Tired", "Skin Rash": "Skin Rash", "Sore Throat": "Sore Throat", "Runny Nose": "Runny Nose"
     },
     clinicAnalytics: "Clinic Analytics",
     redCases: "Red Cases",
@@ -141,16 +348,86 @@ export const TRANSLATIONS: Translations = {
     why: "WHY?",
     strategyFor: "Strategy for:",
     note: "Note:",
-    disclaimer: "Disclaimer: These are AI-generated suggestions based on clinical guidelines. Always verify dosage and contraindications before prescribing.",
+    disclaimer: "Disclaimer: AI suggestions are based on guidelines. Verify contraindications. NO ANTIBIOTICS SUGGESTED.",
     noReferrals: "No active referrals yet.",
     sent: "Sent",
     pendingSync: "Pending Sync",
     generatingAnalytics: "Generating real-time analytics...",
     failedAnalytics: "Failed to load analytics.",
-    analyzing: "Analyzing Data...",
-    analyzingDesc: "Gemini AI is reviewing symptoms, clinical data, and evidence against triage protocols."
-  },
+    analyzing: "Analysing...",
+    analyzingDesc: "Gemini AI is reviewing symptoms, clinical data, and evidence against triage protocols.",
+    connecting: "Connecting to Gemini AI...",
+    validationError: "Please fix validation errors.",
+    provideFeedback: "Doctor Feedback",
+    feedbackThanks: "Feedback recorded for training.",
+    lookupCase: "Lookup / Scan Case",
+    enterCaseId: "Enter Case ID",
+    scanQr: "Scan QR",
+    printCase: "Print Case File",
+    caseId: "Case ID",
+    caseNotFound: "Case ID not found or invalid.",
+    search: "Search",
+    tapToView: "Tap to view full details",
+    scannerInstructions: "Use a dedicated scanner to read Patient QR Codes, then enter the ID above.",
+    lookupSubtitle: "Search ID or Scan QR",
+
+    // Public
+    publicModeBtn: "Public Self-Check",
+    clinicModeBtn: "Clinic Login",
+    publicWelcome: "Welcome to Self-Triage",
+    publicDesc: "Quick, simple symptom check for you and your family.",
+    aboutYou: "About You",
+    yourSymptoms: "Your Symptoms",
+    howBad: "How bad is it?",
+    howLong: "How long?",
+    checkSymptoms: "Check My Symptoms",
+    iFeel: "I feel...",
+    ageGroup: "Age Group",
+    child: "Child (0-12)",
+    teen: "Teen (13-17)",
+    adult: "Adult (18-64)",
+    senior: "Senior (65+)",
+    moderate: "Moderate",
+    publicResults: "Your Health Report",
+    possibleCauses: "Possible Causes",
+    homeCare: "Home Care Suggestions",
+    whenToSeeDoc: "When to see a Doctor",
+    shareWithClinic: "Share with Clinic",
+    clearData: "Clear Data & Exit",
+    publicDisclaimer: "This information is AI-generated for educational purposes and is NOT a medical diagnosis. Always consult a healthcare professional for advice.",
+    shareInstructions: "Show this code to the receptionist or doctor to share your self-assessment.",
+    risk: "RISK",
+    risk_Low: "LOW",
+    risk_Medium: "MEDIUM",
+    risk_High: "HIGH",
+    clearDataConfirm: "This will clear all your data. Are you sure?",
+
+    // History
+    history: "History",
+    historyTitle: "Analysis History",
+    noHistory: "No history records found.",
+    viewDetails: "View Details",
+    delete: "Delete",
+    deleteAll: "Clear All History",
+    confirmDelete: "Are you sure you want to delete this?",
+    confirmClearHistory: "Clear all history? This cannot be undone.",
+    savedAutomatically: "Analysis saved automatically.",
+    
+    newTriage: "New Triage",
+    startAssessment: "Start assessment"
+};
+
+export const TRANSLATIONS: Translations = {
+  en: EN_TRANSLATIONS,
   id: {
+    ...EN_TRANSLATIONS,
+    loginTitle: "Akses Clinix",
+    login: "Masuk",
+    logout: "Keluar",
+    role_DOCTOR: "Dokter",
+    role_NURSE: "Perawat",
+    role_SPECIALIST: "Spesialis",
+
     welcome: "Selamat Datang, Dr. Asisten",
     ready: "Siap melakukan triase pasien hari ini.",
     startTriage: "Mulai Triase Baru",
@@ -158,7 +435,6 @@ export const TRANSLATIONS: Translations = {
     referralInbox: "Kotak Masuk Rujukan",
     activeCases: "Kasus Aktif",
     dashboard: "Analitik Dashboard",
-    recentActivity: "Aktivitas Terbaru (Simulasi)",
     patientDetails: "Detail Pasien",
     symptomAssessment: "Penilaian Gejala",
     evidence: "Bukti",
@@ -166,7 +442,12 @@ export const TRANSLATIONS: Translations = {
     of: "dari",
     nextStep: "Langkah Berikutnya",
     back: "Kembali",
-    analyze: "Analisis dengan AI",
+    analyze: "Analisis",
+    selfTriage: "Triase Mandiri",
+    aiSystemDesc: "Sistem Triase Berbantuan AI",
+    internalAccess: "Akses Internal",
+    secureEnv: "Lingkungan Aman • Terenkripsi",
+    
     fullName: "Nama Lengkap",
     age: "Usia",
     gender: "Jenis Kelamin",
@@ -175,20 +456,79 @@ export const TRANSLATIONS: Translations = {
     weight: "Berat (kg)",
     allergies: "Alergi",
     chiefComplaint: "Keluhan Utama",
-    duration: "Durasi gejala",
-    severity: "Keparahan (1-10)",
+    vitalsTitle: "Tanda Vital",
+    temp: "Suhu (°C)",
+    hr: "Detak Jantung (bpm)",
+    bp: "TD (Sis/Dia)",
+    sys: "Sis",
+    dia: "Dia",
+    spo2: "SPO2 (%)",
+    rr: "Laju Napas",
+    duration: "Durasi",
+    severity: "Keparahan",
     mild: "Ringan",
     severe: "Parah",
-    uploadTitle: "Unggah Data (Opsional)",
-    uploadDesc: "Unggah gambar ruam, luka, atau hasil lab sederhana untuk membantu AI.",
+    uploadTitle: "Unggah Data",
+    uploadDesc: "Unggah gambar ruam, luka, atau hasil lab.",
     tapUpload: "Ketuk untuk Unggah Gambar",
+    micStart: "Ketuk untuk bicara",
+    micStop: "Mendengarkan...",
+    detected: "Terdeteksi",
+    no: "Tidak",
+    duration1: "Kurang dari 1 hari",
+    duration2: "1-2 hari",
+    duration3: "3-5 hari",
+    duration4: "Lebih dari seminggu",
+    voiceNotSupported: "Input suara tidak didukung.",
+    fillBasicInfo: "Mohon isi info dasar pasien (Nama & Usia).",
+
     analysisComplete: "Analisis Selesai",
     topDiagnoses: "Diagnosis & Logika AI Teratas",
-    medSuggestions: "Saran Pengobatan",
+    medSuggestions: "Saran Obat Bebas (OTC)",
     riskFactors: "Faktor Risiko Utama",
     recommendation: "Rekomendasi AI",
     confirmTreat: "Konfirmasi & Obati",
     requestReferral: "Minta Rujukan",
+    emergencyTransfer: "Transfer Darurat",
+    emergencyMode: "MODE DARURAT",
+    emergencyAlert: "TANDA VITAL KRITIS TERDETEKSI",
+    immediateAction: "Tindakan Segera Diperlukan",
+    stabilizeABC: "Stabilkan ABC pasien (Jalan Napas, Pernapasan, Sirkulasi)",
+    administerOxygen: "Berikan Oksigen jika SPO2 < 90%",
+    prepareTransfer: "Persiapkan transfer segera",
+    triageReport: "LAPORAN TRIASE CLINIX",
+    generatedOn: "Dibuat pada",
+    copied: "Disalin!",
+    copyFail: "Salin manual diperlukan",
+    priority: "PRIORITAS",
+    urgency_Red: "MERAH",
+    urgency_Yellow: "KUNING",
+    urgency_Green: "HIJAU",
+    warning: "Peringatan:",
+    accurate: "Akurat",
+    incorrect: "Tidak Akurat",
+    referralSent: "Rujukan Terkirim",
+    referralToast: "Rujukan berhasil dikirim ke spesialis!",
+    analysisFailed: "Analisis gagal. Silakan coba lagi.",
+
+    specialistPortal: "Portal Spesialis",
+    incomingReferrals: "Rujukan Masuk",
+    sendRecommendation: "Kirim Rekomendasi",
+    auditLogs: "Log Audit Sistem",
+    caseTimeline: "Linimasa Kasus",
+    diagnosisLabel: "Diagnosis:",
+    typeNotes: "Ketik catatan untuk dokter perujuk...",
+    reject: "Tolak",
+    approve: "Setujui & Balas",
+    tableTimestamp: "Waktu",
+    tableActor: "Aktor",
+    tableAction: "Tindakan",
+    tableDetails: "Detail",
+    auditSystem: "Sistem",
+    auditInit: "MULAI",
+    auditMsg: "Sistem berhasil diinisialisasi",
+    noLogs: "Tidak ada log lainnya.",
+
     offlineMode: "Mode Offline",
     online: "Online",
     alert: "PERINGATAN",
@@ -196,17 +536,12 @@ export const TRANSLATIONS: Translations = {
     close: "Tutup",
     notifications: "Notifikasi",
     saveOffline: "Simpan ke Antrean Offline",
-    micStart: "Ketuk untuk bicara",
-    micStop: "Mendengarkan...",
     symptoms: {
-        "Fever": "Demam",
-        "Cough": "Batuk",
-        "Shortness of breath": "Sesak napas",
-        "Chest pain": "Nyeri dada",
-        "Fatigue": "Kelelahan",
-        "Nausea": "Mual",
-        "Rash": "Ruam",
-        "Headache": "Sakit kepala"
+        "Fever": "Demam", "Cough": "Batuk", "Shortness of breath": "Sesak napas",
+        "Chest pain": "Nyeri dada", "Fatigue": "Kelelahan", "Nausea": "Mual",
+        "Rash": "Ruam", "Headache": "Sakit kepala", "Dizziness": "Pusing", "Abdominal Pain": "Nyeri Perut",
+        "Fever / Hot": "Demam / Panas", "Coughing": "Batuk", "Tummy Pain": "Sakit Perut", 
+        "Feeling Tired": "Merasa Lelah", "Skin Rash": "Ruam Kulit", "Sore Throat": "Sakit Tenggorokan", "Runny Nose": "Hidung Meler"
     },
     clinicAnalytics: "Analitik Klinik",
     redCases: "Kasus Merah",
@@ -218,255 +553,88 @@ export const TRANSLATIONS: Translations = {
     why: "MENGAPA?",
     strategyFor: "Strategi untuk:",
     note: "Catatan:",
-    disclaimer: "Penafian: Ini adalah saran yang dihasilkan AI berdasarkan pedoman klinis. Selalu verifikasi dosis dan kontraindikasi sebelum meresepkan.",
+    disclaimer: "Penafian: Saran AI berdasarkan pedoman. Verifikasi kontraindikasi. TIDAK ADA ANTIBIOTIK.",
     noReferrals: "Belum ada rujukan aktif.",
     sent: "Terkirim",
     pendingSync: "Sinkronisasi Tertunda",
     generatingAnalytics: "Menghasilkan analitik waktu nyata...",
     failedAnalytics: "Gagal memuat analitik.",
-    analyzing: "Menganalisis Data...",
-    analyzingDesc: "Gemini AI sedang meninjau gejala, data klinis, dan bukti terhadap protokol triase."
-  },
-  zh: {
-    welcome: "欢迎，助理医生",
-    ready: "准备好今天对患者进行分诊。",
-    startTriage: "开始新分诊",
-    aiAssisted: "AI辅助评估",
-    referralInbox: "转诊收件箱",
-    activeCases: "活跃病例",
-    dashboard: "仪表盘分析",
-    recentActivity: "最近活动（模拟）",
-    patientDetails: "患者详情",
-    symptomAssessment: "症状评估",
-    evidence: "证据",
-    step: "步骤",
-    of: "/",
-    nextStep: "下一步",
-    back: "返回",
-    analyze: "使用AI分析",
-    fullName: "全名",
-    age: "年龄",
-    gender: "性别",
-    male: "男",
-    female: "女",
-    weight: "体重 (kg)",
-    allergies: "过敏史",
-    chiefComplaint: "主诉",
-    duration: "症状持续时间",
-    severity: "严重程度 (1-10)",
-    mild: "轻微",
-    severe: "严重",
-    uploadTitle: "数据上传（可选）",
-    uploadDesc: "上传皮疹、伤口或简单化验结果的图片以协助AI。",
-    tapUpload: "点击上传图片",
-    analysisComplete: "分析完成",
-    topDiagnoses: "AI主要诊断与逻辑",
-    medSuggestions: "用药建议",
-    riskFactors: "关键风险因素",
-    recommendation: "AI建议",
-    confirmTreat: "确认并治疗",
-    requestReferral: "请求转诊",
-    offlineMode: "离线模式",
-    online: "在线",
-    alert: "警报",
-    info: "信息",
-    close: "关闭",
-    notifications: "通知",
-    saveOffline: "保存到离线队列",
-    micStart: "点击说话",
-    micStop: "正在聆听...",
-    symptoms: {
-        "Fever": "发烧",
-        "Cough": "咳嗽",
-        "Shortness of breath": "呼吸急促",
-        "Chest pain": "胸痛",
-        "Fatigue": "疲劳",
-        "Nausea": "恶心",
-        "Rash": "皮疹",
-        "Headache": "头痛"
-    },
-    clinicAnalytics: "诊所分析",
-    redCases: "红色病例",
-    yellowCases: "黄色病例",
-    greenCases: "绿色病例",
-    topDiagnosesTrends: "主要诊断趋势",
-    commonMedications: "常用处方药",
-    option: "选项",
-    why: "原因?",
-    strategyFor: "治疗策略:",
-    note: "注意:",
-    disclaimer: "免责声明：以上为基于临床指南的AI建议。开具处方前请务必核实剂量和禁忌症。",
-    noReferrals: "暂无活跃转诊。",
-    sent: "已发送",
-    pendingSync: "待同步",
-    generatingAnalytics: "正在生成实时分析...",
-    failedAnalytics: "加载分析失败。",
-    analyzing: "正在分析数据...",
-    analyzingDesc: "Gemini AI 正在根据分诊方案审查症状、临床数据和证据。"
-  },
-  ja: {
-    welcome: "ようこそ、アシスタントドクター",
-    ready: "今日の患者トリアージの準備ができました。",
-    startTriage: "新しいトリアージを開始",
-    aiAssisted: "AI支援評価",
-    referralInbox: "紹介状受信トレイ",
-    activeCases: "アクティブな症例",
-    dashboard: "ダッシュボード分析",
-    recentActivity: "最近のアクティビティ（シミュレーション）",
-    patientDetails: "患者詳細",
-    symptomAssessment: "症状評価",
-    evidence: "証拠",
-    step: "ステップ",
-    of: "/",
-    nextStep: "次のステップ",
-    back: "戻る",
-    analyze: "AIで分析",
-    fullName: "氏名",
-    age: "年齢",
-    gender: "性別",
-    male: "男性",
-    female: "女性",
-    weight: "体重 (kg)",
-    allergies: "アレルギー",
-    chiefComplaint: "主訴",
-    duration: "症状の期間",
-    severity: "重症度 (1-10)",
-    mild: "軽度",
-    severe: "重度",
-    uploadTitle: "データアップロード（任意）",
-    uploadDesc: "発疹、傷、または簡単な検査結果の画像をアップロードしてAIを支援します。",
-    tapUpload: "タップして画像をアップロード",
-    analysisComplete: "分析完了",
-    topDiagnoses: "AIによる主な診断と論理",
-    medSuggestions: "薬の提案",
-    riskFactors: "主な危険因子",
-    recommendation: "AIの推奨事項",
-    confirmTreat: "確認して治療",
-    requestReferral: "紹介を依頼",
-    offlineMode: "オフラインモード",
-    online: "オンライン",
-    alert: "警告",
-    info: "情報",
-    close: "閉じる",
-    notifications: "通知",
-    saveOffline: "オフラインキューに保存",
-    micStart: "タップして話す",
-    micStop: "聞き取り中...",
-    symptoms: {
-        "Fever": "発熱",
-        "Cough": "咳",
-        "Shortness of breath": "息切れ",
-        "Chest pain": "胸痛",
-        "Fatigue": "疲労感",
-        "Nausea": "吐き気",
-        "Rash": "発疹",
-        "Headache": "頭痛"
-    },
-    clinicAnalytics: "クリニック分析",
-    redCases: "赤色症例",
-    yellowCases: "黄色症例",
-    greenCases: "緑色症例",
-    topDiagnosesTrends: "主な診断傾向",
-    commonMedications: "一般的に処方される薬",
-    option: "オプション",
-    why: "理由?",
-    strategyFor: "戦略:",
-    note: "注意:",
-    disclaimer: "免責事項：これらは臨床ガイドラインに基づいたAI生成の提案です。処方する前に必ず用量と禁忌を確認してください。",
-    noReferrals: "アクティブな紹介はまだありません。",
-    sent: "送信済み",
-    pendingSync: "同期保留中",
-    generatingAnalytics: "リアルタイム分析を生成中...",
-    failedAnalytics: "分析の読み込みに失敗しました。",
-    analyzing: "データを分析中...",
-    analyzingDesc: "Gemini AI が症状、臨床データ、および証拠をトリアージプロトコルと照らし合わせてレビューしています。"
-  },
-  ko: {
-    welcome: "환영합니다, 닥터 어시스턴트",
-    ready: "오늘 환자 분류를 시작할 준비가 되었습니다.",
-    startTriage: "새로운 분류 시작",
-    aiAssisted: "AI 지원 평가",
-    referralInbox: "의뢰 수신함",
-    activeCases: "진행 중인 사례",
-    dashboard: "대시보드 분석",
-    recentActivity: "최근 활동 (시뮬레이션)",
-    patientDetails: "환자 세부 정보",
-    symptomAssessment: "증상 평가",
-    evidence: "증거 자료",
-    step: "단계",
-    of: "/",
-    nextStep: "다음 단계",
-    back: "뒤로",
-    analyze: "AI로 분석",
-    fullName: "성명",
-    age: "나이",
-    gender: "성별",
-    male: "남성",
-    female: "여성",
-    weight: "체중 (kg)",
-    allergies: "알레르기",
-    chiefComplaint: "주요 호소 증상",
-    duration: "증상 지속 기간",
-    severity: "심각도 (1-10)",
-    mild: "경미",
-    severe: "심각",
-    uploadTitle: "데이터 업로드 (선택 사항)",
-    uploadDesc: "AI를 돕기 위해 발진, 상처 또는 간단한 검사 결과 이미지를 업로드하세요.",
-    tapUpload: "이미지를 업로드하려면 탭하세요",
-    analysisComplete: "분석 완료",
-    topDiagnoses: "상위 AI 진단 및 논리",
-    medSuggestions: "약물 제안",
-    riskFactors: "주요 위험 요인",
-    recommendation: "AI 권장 사항",
-    confirmTreat: "확인 및 치료",
-    requestReferral: "의뢰 요청",
-    offlineMode: "오프라인 모드",
-    online: "온라인",
-    alert: "경고",
-    info: "정보",
-    close: "닫기",
-    notifications: "알림",
-    saveOffline: "오프라인 대기열에 저장",
-    micStart: "말하려면 탭하세요",
-    micStop: "듣는 중...",
-    symptoms: {
-        "Fever": "발열",
-        "Cough": "기침",
-        "Shortness of breath": "숨가쁨",
-        "Chest pain": "흉통",
-        "Fatigue": "피로",
-        "Nausea": "메스꺼움",
-        "Rash": "발진",
-        "Headache": "두통"
-    },
-    clinicAnalytics: "클리닉 분석",
-    redCases: "적색 사례",
-    yellowCases: "황색 사례",
-    greenCases: "녹색 사례",
-    topDiagnosesTrends: "주요 진단 추세",
-    commonMedications: "일반적으로 처방되는 약물",
-    option: "옵션",
-    why: "이유?",
-    strategyFor: "전략:",
-    note: "참고:",
-    disclaimer: "면책 조항: 이는 임상 지침에 기반한 AI 생성 제안입니다. 처방하기 전에 항상 용량과 금기 사항을 확인하십시오.",
-    noReferrals: "아직 활성 의뢰가 없습니다.",
-    sent: "전송됨",
-    pendingSync: "동기화 대기 중",
-    generatingAnalytics: "실시간 분석 생성 중...",
-    failedAnalytics: "분석을 로드하지 못했습니다.",
-    analyzing: "데이터 분석 중...",
-    analyzingDesc: "Gemini AI가 증상, 임상 데이터 및 증거를 분류 프로토콜과 대조하여 검토하고 있습니다."
+    analyzing: "Menganalisis...",
+    analyzingDesc: "Gemini AI sedang meninjau gejala, data klinis, dan bukti terhadap protokol triase.",
+    connecting: "Menghubungkan ke Gemini AI...",
+    validationError: "Harap perbaiki kesalahan validasi.",
+    provideFeedback: "Umpan Balik Dokter",
+    feedbackThanks: "Umpan balik direkam untuk pelatihan.",
+    lookupCase: "Cari / Pindai Kasus",
+    enterCaseId: "Masukkan ID Kasus",
+    scanQr: "Pindai QR",
+    printCase: "Cetak Berkas Kasus",
+    caseId: "ID Kasus",
+    caseNotFound: "ID Kasus tidak ditemukan atau tidak valid.",
+    search: "Cari",
+    tapToView: "Ketuk untuk melihat detail lengkap",
+    scannerInstructions: "Gunakan pemindai khusus untuk membaca Kode QR Pasien, lalu masukkan ID di atas.",
+    lookupSubtitle: "Cari ID atau Pindai QR",
+
+    publicModeBtn: "Cek Mandiri Publik",
+    clinicModeBtn: "Login Klinik",
+    publicWelcome: "Selamat Datang di Triase Mandiri",
+    publicDesc: "Pemeriksaan gejala cepat dan sederhana untuk Anda dan keluarga.",
+    aboutYou: "Tentang Anda",
+    yourSymptoms: "Gejala Anda",
+    howBad: "Seberapa sakit?",
+    howLong: "Berapa lama?",
+    checkSymptoms: "Cek Gejala Saya",
+    iFeel: "Saya merasa...",
+    ageGroup: "Kelompok Usia",
+    child: "Anak (0-12)",
+    teen: "Remaja (13-17)",
+    adult: "Dewasa (18-64)",
+    senior: "Lansia (65+)",
+    moderate: "Sedang",
+    publicResults: "Laporan Kesehatan Anda",
+    possibleCauses: "Kemungkinan Penyebab",
+    homeCare: "Saran Perawatan di Rumah",
+    whenToSeeDoc: "Kapan harus ke Dokter",
+    shareWithClinic: "Bagikan dengan Klinik",
+    clearData: "Hapus Data & Keluar",
+    publicDisclaimer: "Informasi ini dihasilkan oleh AI untuk tujuan edukasi dan BUKAN diagnosis medis. Selalu konsultasikan dengan tenaga profesional.",
+    shareInstructions: "Tunjukkan kode ini ke resepsionis atau dokter untuk membagikan penilaian mandiri Anda.",
+    risk: "RISIKO",
+    risk_Low: "RENDAH",
+    risk_Medium: "SEDANG",
+    risk_High: "TINGGI",
+    clearDataConfirm: "Ini akan menghapus semua data Anda. Apakah Anda yakin?",
+
+    history: "Riwayat",
+    historyTitle: "Riwayat Analisis",
+    noHistory: "Tidak ada riwayat ditemukan.",
+    viewDetails: "Lihat Detail",
+    delete: "Hapus",
+    deleteAll: "Hapus Semua Riwayat",
+    confirmDelete: "Anda yakin ingin menghapus ini?",
+    confirmClearHistory: "Hapus semua riwayat? Ini tidak dapat dibatalkan.",
+    savedAutomatically: "Analisis disimpan otomatis.",
+    
+    newTriage: "Triase Baru",
+    startAssessment: "Mulai penilaian"
   },
   es: {
+    ...EN_TRANSLATIONS,
+    loginTitle: "Acceso Clinix",
+    login: "Entrar",
+    logout: "Salir",
+    role_DOCTOR: "Doctor",
+    role_NURSE: "Enfermera",
+    role_SPECIALIST: "Especialista",
+
     welcome: "Bienvenido, Dr. Asistente",
-    ready: "Listo para clasificar pacientes hoy.",
-    startTriage: "Iniciar Nuevo Triaje",
-    aiAssisted: "Evaluación Asistida por IA",
+    ready: "Listo para triaje hoy.",
+    startTriage: "Nuevo Triaje",
+    aiAssisted: "Evaluación por IA",
     referralInbox: "Bandeja de Referencias",
     activeCases: "Casos Activos",
-    dashboard: "Análisis del Tablero",
-    recentActivity: "Actividad Reciente (Simulada)",
+    dashboard: "Panel de Análisis",
     patientDetails: "Detalles del Paciente",
     symptomAssessment: "Evaluación de Síntomas",
     evidence: "Evidencia",
@@ -474,7 +642,12 @@ export const TRANSLATIONS: Translations = {
     of: "de",
     nextStep: "Siguiente Paso",
     back: "Atrás",
-    analyze: "Analizar con IA",
+    analyze: "Analizar",
+    selfTriage: "Auto-Triaje",
+    aiSystemDesc: "Sistema de Triaje Asistido por IA",
+    internalAccess: "Acceso Interno",
+    secureEnv: "Entorno Seguro • Encriptado",
+    
     fullName: "Nombre Completo",
     age: "Edad",
     gender: "Género",
@@ -483,40 +656,94 @@ export const TRANSLATIONS: Translations = {
     weight: "Peso (kg)",
     allergies: "Alergias",
     chiefComplaint: "Queja Principal",
-    duration: "Duración de los síntomas",
-    severity: "Gravedad (1-10)",
+    vitalsTitle: "Signos Vitales",
+    temp: "Temp (°C)",
+    hr: "Frec. Cardíaca (lpm)",
+    bp: "PA (Sis/Dia)",
+    sys: "Sis",
+    dia: "Dia",
+    spo2: "SPO2 (%)",
+    rr: "Frec. Resp.",
+    duration: "Duración",
+    severity: "Severidad",
     mild: "Leve",
-    severe: "Grave",
-    uploadTitle: "Carga de Datos (Opcional)",
-    uploadDesc: "Suba imágenes de erupciones, heridas o resultados simples de laboratorio para asistir a la IA.",
-    tapUpload: "Toque para Subir Imagen",
+    severe: "Severo",
+    uploadTitle: "Subir Datos",
+    uploadDesc: "Subir imágenes de erupciones, heridas o laboratorios.",
+    tapUpload: "Tocar para Subir Imagen",
+    micStart: "Tocar para hablar",
+    micStop: "Escuchando...",
+    detected: "Detectado",
+    no: "No",
+    duration1: "Menos de 1 día",
+    duration2: "1-2 días",
+    duration3: "3-5 días",
+    duration4: "Más de una semana",
+    voiceNotSupported: "Entrada de voz no soportada.",
+    fillBasicInfo: "Por favor complete la información básica del paciente (Nombre y Edad).",
+
     analysisComplete: "Análisis Completo",
-    topDiagnoses: "Principales Diagnósticos de IA y Lógica",
-    medSuggestions: "Sugerencias de Medicamentos",
+    topDiagnoses: "Diagnósticos Principales IA",
+    medSuggestions: "Sugerencias de Medicamentos (OTC)",
     riskFactors: "Factores de Riesgo Clave",
-    recommendation: "Recomendación de IA",
+    recommendation: "Recomendación IA",
     confirmTreat: "Confirmar y Tratar",
     requestReferral: "Solicitar Referencia",
-    offlineMode: "Modo Sin Conexión",
-    online: "En Línea",
+    emergencyTransfer: "Traslado de Emergencia",
+    emergencyMode: "MODO DE EMERGENCIA",
+    emergencyAlert: "SIGNOS VITALES CRÍTICOS DETECTADOS",
+    immediateAction: "Acción Inmediata Requerida",
+    stabilizeABC: "Estabilizar ABC del paciente (Vía aérea, Respiración, Circulación)",
+    administerOxygen: "Administrar Oxígeno si SPO2 < 90%",
+    prepareTransfer: "Preparar traslado inmediato",
+    triageReport: "INFORME DE TRIAJE CLINIX",
+    generatedOn: "Generado el",
+    copied: "¡Copiado!",
+    copyFail: "Copia manual requerida",
+    priority: "PRIORIDAD",
+    urgency_Red: "ROJO",
+    urgency_Yellow: "AMARILLO",
+    urgency_Green: "VERDE",
+    warning: "Advertencia:",
+    accurate: "Preciso",
+    incorrect: "Incorrecto",
+    referralSent: "Referencia Enviada",
+    referralToast: "¡Referencia enviada al especialista con éxito!",
+    analysisFailed: "El análisis falló. Por favor intente de nuevo.",
+
+    specialistPortal: "Portal de Especialistas",
+    incomingReferrals: "Referencias Entrantes",
+    sendRecommendation: "Enviar Recomendación",
+    auditLogs: "Registros de Auditoría",
+    caseTimeline: "Línea de Tiempo del Caso",
+    diagnosisLabel: "Diagnóstico:",
+    typeNotes: "Escriba notas para el médico referente...",
+    reject: "Rechazar",
+    approve: "Aprobar y Responder",
+    tableTimestamp: "Hora",
+    tableActor: "Actor",
+    tableAction: "Acción",
+    tableDetails: "Detalles",
+    auditSystem: "Sistema",
+    auditInit: "INICIO",
+    auditMsg: "Sistema inicializado exitosamente",
+    noLogs: "No hay más registros disponibles.",
+
+    offlineMode: "Modo Offline",
+    online: "En línea",
     alert: "ALERTA",
     info: "INFO",
     close: "Cerrar",
     notifications: "Notificaciones",
-    saveOffline: "Guardar en Cola Sin Conexión",
-    micStart: "Toque para hablar",
-    micStop: "Escuchando...",
+    saveOffline: "Guardar en Cola Offline",
     symptoms: {
-        "Fever": "Fiebre",
-        "Cough": "Tos",
-        "Shortness of breath": "Falta de aliento",
-        "Chest pain": "Dolor de pecho",
-        "Fatigue": "Fatiga",
-        "Nausea": "Náuseas",
-        "Rash": "Erupción",
-        "Headache": "Dolor de cabeza"
+        "Fever": "Fiebre", "Cough": "Tos", "Shortness of breath": "Falta de aire",
+        "Chest pain": "Dolor de pecho", "Fatigue": "Fatiga", "Nausea": "Náuseas",
+        "Rash": "Erupción", "Headache": "Dolor de cabeza", "Dizziness": "Mareos", "Abdominal Pain": "Dolor Abdominal",
+        "Fever / Hot": "Fiebre / Caliente", "Coughing": "Tos", "Tummy Pain": "Dolor de Panza", 
+        "Feeling Tired": "Cansancio", "Skin Rash": "Erupción Cutánea", "Sore Throat": "Dolor de Garganta", "Runny Nose": "Nariz Mocosa"
     },
-    clinicAnalytics: "Análisis Clínico",
+    clinicAnalytics: "Analítica Clínica",
     redCases: "Casos Rojos",
     yellowCases: "Casos Amarillos",
     greenCases: "Casos Verdes",
@@ -526,13 +753,74 @@ export const TRANSLATIONS: Translations = {
     why: "¿POR QUÉ?",
     strategyFor: "Estrategia para:",
     note: "Nota:",
-    disclaimer: "Descargo de responsabilidad: Estas son sugerencias generadas por IA basadas en pautas clínicas. Siempre verifique la dosis y las contraindicaciones antes de recetar.",
-    noReferrals: "No hay referencias activas aún.",
+    disclaimer: "Descargo: Sugerencias de IA basadas en guías. Verifique contraindicaciones. NO ANTIBIÓTICOS.",
+    noReferrals: "No hay referencias activas.",
     sent: "Enviado",
     pendingSync: "Sincronización Pendiente",
     generatingAnalytics: "Generando análisis en tiempo real...",
     failedAnalytics: "Error al cargar análisis.",
-    analyzing: "Analizando Datos...",
-    analyzingDesc: "Gemini AI está revisando síntomas, datos clínicos y evidencia contra los protocolos de triaje."
-  }
+    analyzing: "Analizando...",
+    analyzingDesc: "Gemini AI está revisando síntomas, datos clínicos y evidencia contra protocolos de triaje.",
+    connecting: "Conectando a Gemini AI...",
+    validationError: "Por favor corrija los errores de validación.",
+    provideFeedback: "Comentarios del Médico",
+    feedbackThanks: "Comentarios registrados para entrenamiento.",
+    lookupCase: "Buscar / Escanear Caso",
+    enterCaseId: "Ingresar ID de Caso",
+    scanQr: "Escanear QR",
+    printCase: "Imprimir Expediente",
+    caseId: "ID de Caso",
+    caseNotFound: "ID de Caso no encontrado o inválido.",
+    search: "Buscar",
+    tapToView: "Toque para ver detalles completos",
+    scannerInstructions: "Use un escáner dedicado para leer códigos QR de pacientes, luego ingrese el ID arriba.",
+    lookupSubtitle: "Buscar ID o Escanear QR",
+
+    publicModeBtn: "Auto-Chequeo Público",
+    clinicModeBtn: "Acceso Clínica",
+    publicWelcome: "Bienvenido al Auto-Triaje",
+    publicDesc: "Chequeo de síntomas rápido y simple para usted y su familia.",
+    aboutYou: "Sobre Usted",
+    yourSymptoms: "Sus Síntomas",
+    howBad: "¿Qué tan mal?",
+    howLong: "¿Cuánto tiempo?",
+    checkSymptoms: "Revisar Mis Síntomas",
+    iFeel: "Me siento...",
+    ageGroup: "Grupo de Edad",
+    child: "Niño (0-12)",
+    teen: "Adolescente (13-17)",
+    adult: "Adulto (18-64)",
+    senior: "Mayor (65+)",
+    moderate: "Moderado",
+    publicResults: "Su Informe de Salud",
+    possibleCauses: "Posibles Causas",
+    homeCare: "Sugerencias de Cuidado en Casa",
+    whenToSeeDoc: "Cuándo ver a un Doctor",
+    shareWithClinic: "Compartir con Clínica",
+    clearData: "Borrar Datos y Salir",
+    publicDisclaimer: "Esta información es generada por IA con fines educativos y NO es un diagnóstico médico. Consulte siempre a un profesional.",
+    shareInstructions: "Muestre este código a la recepción o al médico para compartir su autoevaluación.",
+    risk: "RIESGO",
+    risk_Low: "BAJO",
+    risk_Medium: "MEDIO",
+    risk_High: "ALTO",
+    clearDataConfirm: "Esto borrará todos sus datos. ¿Está seguro?",
+
+    history: "Historial",
+    historyTitle: "Historial de Análisis",
+    noHistory: "No se encontraron registros.",
+    viewDetails: "Ver Detalles",
+    delete: "Borrar",
+    deleteAll: "Borrar Todo",
+    confirmDelete: "¿Estás seguro de que quieres eliminar esto?",
+    confirmClearHistory: "¿Borrar todo el historial? Esto no se puede deshacer.",
+    savedAutomatically: "Análisis guardado automáticamente.",
+
+    newTriage: "Nuevo Triaje",
+    startAssessment: "Comenzar evaluación"
+  },
+  // Fallbacks using English structure
+  zh: { ...EN_TRANSLATIONS, welcome: "欢迎" },
+  ja: { ...EN_TRANSLATIONS, welcome: "ようこそ" },
+  ko: { ...EN_TRANSLATIONS, welcome: "환영합니다" }
 };

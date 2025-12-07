@@ -15,12 +15,13 @@
               heading: ['Montserrat', 'sans-serif'],
             },
             colors: {
-              primary: '#007BFF',
-              accent: '#00D2D3',
-              dark: '#343A40',
-              success: '#28A745',
-              warning: '#FFC107',
-              danger: '#DC3545',
+              primary: '#0D9488', // Teal 600
+              secondary: '#0F766E', // Teal 700
+              accent: '#38BDF8', // Sky 400
+              dark: '#1E293B',
+              success: '#10B981',
+              warning: '#F59E0B',
+              danger: '#EF4444',
             }
           }
         }
@@ -28,8 +29,76 @@
     </script>
     <style>
       body {
-        background-color: #F8F9FA;
-        color: #343A40;
+        background-color: #F0F4F8;
+        color: #1E293B;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translate3d(0, 20px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .animate-fade-in-up {
+        animation: fadeInUp 0.4s ease-out forwards;
+      }
+
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-out forwards;
+      }
+
+      /* Glassmorphism */
+      .glass {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      
+      .glass-dark {
+         background: rgba(15, 23, 42, 0.6);
+         backdrop-filter: blur(12px);
+         -webkit-backdrop-filter: blur(12px);
+         border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Input Styles */
+      input:focus, select:focus, textarea:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+        border-color: #0D9488;
+      }
+
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        .print-only {
+          display: block !important;
+        }
+        body {
+          background-color: white;
+        }
+        #root {
+          padding: 0;
+          margin: 0;
+        }
+        .glass {
+            border: none;
+            background: white;
+            box-shadow: none;
+        }
       }
     </style>
   <script type="importmap">
@@ -38,7 +107,8 @@
     "react": "https://aistudiocdn.com/react@^19.2.1",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0"
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
+    "qrcode": "https://esm.sh/qrcode@1.5.3"
   }
 }
 </script>

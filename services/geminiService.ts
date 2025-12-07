@@ -1,7 +1,12 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
-import { PatientData, SymptomsData, TriageResult, AnalyticsData, Language } from "../types";
+import { PatientData, SymptomsData, TriageResult, AnalyticsData, Language, PublicTriageInput, PublicTriageResult } from "../types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+// Utility to clean AI response if it wraps JSON in Markdown code blocks
+const cleanJson = (text: string): string => {
+  return text.replace(/^```json\s*/, "").replace(/\s*```$/, "").trim();
+};
 
 const triageSchema: Schema = {
   type: Type.OBJECT,
@@ -9,7 +14,7 @@ const triageSchema: Schema = {
     urgencyLevel: {
       type: Type.STRING,
       enum: ["Red", "Yellow", "Green"],
-      description: "The triage urgency level based on symptoms.",
+      description: "The triage urgency level based on symptoms and vitals.",
     },
     diagnoses: {
       type: Type.ARRAY,
@@ -21,47 +26,48 @@ const triageSchema: Schema = {
           explanation: {
             type: Type.ARRAY,
             items: { type: Type.STRING },
-            description: "List of top 3 contributing factors (symptoms, age, etc.) explaining why this diagnosis was chosen."
+            description: "Natural language explanation of why this diagnosis was chosen."
           }
         },
         required: ["name", "confidence", "explanation"],
       },
-      description: "Top 3 possible diagnoses with XAI explanations.",
+      description: "Top 3 possible diagnoses with explainability.",
     },
     medicationSuggestions: {
       type: Type.ARRAY,
       items: {
         type: Type.OBJECT,
         properties: {
-          diagnosisName: { type: Type.STRING, description: "Matches one of the diagnoses names" },
+          diagnosisName: { type: Type.STRING },
           medications: {
             type: Type.ARRAY,
             items: {
               type: Type.OBJECT,
               properties: {
-                name: { type: Type.STRING, description: "Generic name only" },
+                name: { type: Type.STRING },
                 dosage: { type: Type.STRING },
-                form: { type: Type.STRING, description: "e.g. tablet, syrup" },
+                form: { type: Type.STRING },
                 warnings: { type: Type.ARRAY, items: { type: Type.STRING } },
                 confidence: { type: Type.NUMBER },
+                isOTC: { type: Type.BOOLEAN, description: "Must be true. Only OTC allowed." }
               },
-              required: ["name", "dosage", "form", "warnings", "confidence"]
+              required: ["name", "dosage", "form", "warnings", "confidence", "isOTC"]
             },
           },
-          note: { type: Type.STRING, description: "Mandatory 'Doctor approval required' note" }
+          note: { type: Type.STRING }
         },
         required: ["diagnosisName", "medications", "note"]
       },
-      description: "Medication suggestions for the top diagnoses."
+      description: "Strictly OTC medication suggestions."
     },
     riskFactors: {
       type: Type.ARRAY,
       items: { type: Type.STRING },
-      description: "Key risk factors identified from the patient data.",
+      description: "Key risk factors (e.g. Hypertension, High Fever).",
     },
     reasoning: {
       type: Type.STRING,
-      description: "A summary of the reasoning in under 150 words.",
+      description: "A summary of the reasoning.",
     },
     recommendation: {
       type: Type.STRING,
@@ -69,6 +75,29 @@ const triageSchema: Schema = {
     },
   },
   required: ["urgencyLevel", "diagnoses", "medicationSuggestions", "riskFactors", "reasoning", "recommendation"],
+};
+
+const publicTriageSchema: Schema = {
+  type: Type.OBJECT,
+  properties: {
+    riskLevel: { type: Type.STRING, enum: ["Low", "Medium", "High"] },
+    possibleConditions: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Simple, common names for conditions." },
+    careAdvice: { type: Type.ARRAY, items: { type: Type.STRING }, description: "Simple steps like rest, hydration." },
+    warningSigns: { type: Type.ARRAY, items: { type: Type.STRING }, description: "When to see a doctor immediately." },
+    educationalCards: {
+      type: Type.ARRAY,
+      items: {
+        type: Type.OBJECT,
+        properties: {
+            title: { type: Type.STRING },
+            content: { type: Type.STRING, description: "Short explanation of symptom or condition." }
+        },
+        required: ["title", "content"]
+      }
+    },
+    disclaimer: { type: Type.STRING }
+  },
+  required: ["riskLevel", "possibleConditions", "careAdvice", "warningSigns", "educationalCards", "disclaimer"]
 };
 
 const analyticsSchema: Schema = {
@@ -110,6 +139,11 @@ const analyticsSchema: Schema = {
   required: ["timeframe", "triage_counts", "common_diagnoses", "medication_usage"]
 };
 
+const langNameMap: {[key in Language]: string} = {
+    'en': 'English', 'id': 'Indonesian', 'zh': 'Mandarin Chinese',
+    'ja': 'Japanese', 'ko': 'Korean', 'es': 'Spanish'
+};
+
 export const analyzeTriage = async (
   patient: PatientData,
   symptoms: SymptomsData,
@@ -117,48 +151,31 @@ export const analyzeTriage = async (
   language: Language
 ): Promise<TriageResult> => {
   
-  const langNameMap: {[key in Language]: string} = {
-      'en': 'English',
-      'id': 'Indonesian',
-      'zh': 'Mandarin Chinese',
-      'ja': 'Japanese',
-      'ko': 'Korean',
-      'es': 'Spanish'
-  };
-
   const targetLang = langNameMap[language];
 
   const promptText = `
-    You are a medical assistant AI supporting a triage workflow.
+    You are a highly secure medical assistant AI for primary care triage.
     
-    Patient Data:
-    Name: ${patient.name}
-    Age: ${patient.age}
-    Gender: ${patient.gender}
-    Weight: ${patient.weight ? patient.weight + 'kg' : 'Not provided'}
-    Allergies: ${patient.allergies || "No known allergies"}
+    Patient: ${patient.name}, Age: ${patient.age}, Gender: ${patient.gender}
+    Vitals: Temp ${patient.vitals.temperature}C, HR ${patient.vitals.heartRate}, BP ${patient.vitals.systolic}/${patient.vitals.diastolic}, SPO2 ${patient.vitals.spo2}%
+    Allergies: ${patient.allergies || "None"}
     Chief Complaint: ${patient.chiefComplaint}
-
-    Symptoms:
-    Reported: ${symptoms.selected.join(", ")}
-    Duration: ${symptoms.duration}
-    Severity (1-5): ${symptoms.severity}
+    Symptoms: ${symptoms.selected.join(", ")} (${symptoms.duration}, Severity ${symptoms.severity}/10)
     Notes: ${symptoms.notes || "None"}
 
-    Task:
-    Analyze the data and provide a triage assessment.
-    1. Determine Urgency Level (Red, Yellow, Green).
-    2. Identify Top 3 Possible Diagnoses with confidence percentages.
-    3. **Explainable AI**: For each diagnosis, provide 2-3 specific contributing factors (e.g. "High fever + Rash", "Age > 60").
-    4. List Key Risk Factors.
-    5. Provide reasoning summary (<= 150 words).
-    6. Provide a specific recommendation.
-    7. Provide safe, evidence-based **Medication Suggestions** for the top diagnoses.
-
-    IMPORTANT:
-    - **Language**: Output ALL text values (diagnoses names, explanations, warnings, reasoning, notes) in **${targetLang}**. 
-    - Keep JSON keys in English (e.g., "urgencyLevel", "diagnoses").
-    - DO NOT claim to replace doctors. Do NOT output medical decisions. This is a simulation/support tool.
+    TASK:
+    1. Triage Urgency (Red/Yellow/Green). *Red if SPO2<90 or critical vitals*.
+    2. Top 3 Diagnoses w/ confidence.
+    3. **SAFETY RULES FOR MEDICATIONS**:
+       - ONLY suggest Over-The-Counter (OTC) medications (e.g., Paracetamol, Ibuprofen).
+       - **ABSOLUTELY NO ANTIBIOTICS** (Amoxicillin, Ciprofloxacin, etc) or controlled substances.
+       - If infection suspected, suggest referral, do not prescribe.
+       - Check allergies.
+    4. Explanation: Why did you choose these diagnoses? (Explainable AI).
+    
+    OUTPUT:
+    - Language: ${targetLang}
+    - Format: JSON
   `;
 
   const parts: any[] = [{ text: promptText }];
@@ -180,25 +197,76 @@ export const analyzeTriage = async (
       config: {
         responseMimeType: "application/json",
         responseSchema: triageSchema,
-        temperature: 0.2,
+        temperature: 0.1, // Lower temperature for medical accuracy
       },
     });
 
     const text = response.text;
     if (!text) throw new Error("No response from AI");
     
-    return JSON.parse(text) as TriageResult;
+    return JSON.parse(cleanJson(text)) as TriageResult;
   } catch (error) {
     console.error("Triage Analysis Failed:", error);
     throw error;
   }
 };
 
+export const analyzePublicTriage = async (
+    input: PublicTriageInput,
+    language: Language
+): Promise<PublicTriageResult> => {
+    const targetLang = langNameMap[language];
+
+    const promptText = `
+        You are a friendly, empathetic health guide helper. You are assisting a non-medical person understand their symptoms.
+        
+        User Profile: ${input.ageGroup} (${input.gender})
+        Symptoms: ${input.symptoms.join(", ")}
+        Duration: ${input.duration}
+        Severity: ${input.severity}
+
+        TASK:
+        1. Identify 2-3 possible COMMON conditions (e.g., "Common Cold", "Indigestion"). DO NOT DIAGNOSE complex diseases.
+        2. Assess Risk: Low (Home care), Medium (Call doctor), High (Emergency).
+        3. Provide simple home care advice (rest, hydration).
+        4. List "Warning Signs" - specific things that mean they must see a doctor now.
+        5. Create 2 Educational Cards explaining the symptoms simply.
+        6. REQUIRED DISCLAIMER: "This is AI-generated information, not a medical diagnosis. Always consult a professional."
+
+        TONE:
+        - Warm, reassuring, simple English (or target language).
+        - No medical jargon.
+
+        OUTPUT:
+        - Language: ${targetLang}
+        - Format: JSON
+    `;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: { parts: [{ text: promptText }] },
+            config: {
+                responseMimeType: "application/json",
+                responseSchema: publicTriageSchema,
+                temperature: 0.3,
+            },
+        });
+
+        const text = response.text;
+        if (!text) throw new Error("No response from AI");
+        return JSON.parse(cleanJson(text)) as PublicTriageResult;
+    } catch (error) {
+        console.error("Public Analysis Failed:", error);
+        throw error;
+    }
+};
+
 export const generateAnalytics = async (): Promise<AnalyticsData> => {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: "Generate a simulated dashboard dataset for a primary care clinic for the last 7 days. Include triage counts (Red/Yellow/Green), top 5 diagnoses with counts, and top 5 prescribed generic medications with counts.",
+      contents: "Generate a simulated dashboard dataset for a primary care clinic.",
       config: {
         responseMimeType: "application/json",
         responseSchema: analyticsSchema,
@@ -208,15 +276,13 @@ export const generateAnalytics = async (): Promise<AnalyticsData> => {
 
     const text = response.text;
     if (!text) throw new Error("No analytics generated");
-    return JSON.parse(text) as AnalyticsData;
+    return JSON.parse(cleanJson(text)) as AnalyticsData;
   } catch (error) {
-    console.error("Analytics Generation Failed:", error);
-    // Return fallback data if API fails
     return {
-      timeframe: "Last 7 Days (Offline Fallback)",
-      triage_counts: { Red: 5, Yellow: 12, Green: 25 },
-      common_diagnoses: [{ name: "Common Cold", count: 10 }, { name: "Hypertension", count: 8 }],
-      medication_usage: [{ name: "Paracetamol", count: 15 }]
+      timeframe: "Last 7 Days (Fallback)",
+      triage_counts: { Red: 0, Yellow: 0, Green: 0 },
+      common_diagnoses: [],
+      medication_usage: []
     };
   }
 };
