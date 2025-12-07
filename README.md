@@ -35,7 +35,7 @@
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/clinix.git
+    git clone https://github.com/DafinCi/clinix.git
     cd clinix
     ```
 
