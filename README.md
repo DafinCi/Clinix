@@ -35,8 +35,8 @@
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/DafinCi/clinix.git
-    cd clinix
+    git clone https://github.com/DafinCi/Clinix.git
+    cd Clinix
     ```
 
 2.  **Install dependencies:**
